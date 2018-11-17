@@ -4,4 +4,4 @@ C:\Users\ginny\source\repos\ElectiveApp\ElectiveApp\bin\Debug\ElectiveApp.pdb
 C:\Users\ginny\source\repos\ElectiveApp\ElectiveApp\obj\Debug\ElectiveApp.csproj.CoreCompileInputs.cache
 C:\Users\ginny\source\repos\ElectiveApp\ElectiveApp\obj\Debug\ElectiveApp.exe
 C:\Users\ginny\source\repos\ElectiveApp\ElectiveApp\obj\Debug\ElectiveApp.pdb
-C:\Users\ginny\source\repos\ElectiveApp\ElectiveApp\obj\Debug\ElectiveApp.csprojAssemblyReference.cache
+C:\Users\ginny\Source\Repos\ElectiveApp\ElectiveApp\obj\Debug\ElectiveApp.csprojAssemblyReference.cache

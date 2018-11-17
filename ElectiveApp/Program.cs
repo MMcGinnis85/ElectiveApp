@@ -19,7 +19,7 @@ namespace ElectiveApp
             List<Person> StudentData = new List<Person>();
             List<Elective> ElectiveData = new List<Elective>();
             
-
+            g
             int option = 0;
             do
             {
@@ -67,7 +67,7 @@ namespace ElectiveApp
             Console.WriteLine("3. Display Electives");
             Console.WriteLine("4. Add Electives");
             Console.WriteLine("5. Update Electives");
-            Console.WriteLine("6. Sort by ISBN ");
+            Console.WriteLine("6. Should be option 3! ");
             Console.WriteLine("7. Exit");
          
         }
@@ -170,10 +170,45 @@ namespace ElectiveApp
         }
         public static void KElectives(List<Person> StudentData, List<Elective> ElectiveData)
         {
-            
-            var commons = StudentData.Select(s => s.elective1).ToList().Intersect(ElectiveData.Select(s2 => s2.nameCourse).ToList()).ToList();
+
+            Dictionary<string, HashSet<string>> StudentElectives = new Dictionary<string, HashSet<string>>();
+            HashSet<string> Knumbers = new HashSet<string>();
+
+            foreach (Elective E in ElectiveData)
+
+            {
+                HashSet<string> tempSet = new HashSet<string>();
+                StudentElectives.Add(E.nameCourse, tempSet);
 
 
+            }
+
+            foreach (Student s in StudentData)
+            {
+           
+                StudentElectives[s.elective1].Add(s.Knumber);
+                StudentElectives[s.elective2].Add(s.Knumber);
+
+            }
+
+            foreach (KeyValuePair<string, HashSet<string>> kvp in StudentElectives)
+            {
+              
+                Console.WriteLine("Elective = {0}", kvp.Key);
+                displaySet(StudentElectives[kvp.Key]);
+
+            }
+
+
+        }
+
+        public static void displaySet(HashSet<string> set)
+        {
+            Console.Write("{");
+            foreach (string i in set)
+                Console.Write(" {0}", i);
+
+            Console.WriteLine(" }");
         }
 
         public static void UpdateElective(List<Person> StudentData)
