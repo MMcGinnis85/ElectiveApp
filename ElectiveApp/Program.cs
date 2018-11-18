@@ -18,8 +18,25 @@ namespace ElectiveApp
             Console.ForegroundColor = ConsoleColor.Black;
             List<Person> StudentData = new List<Person>();
             List<Elective> ElectiveData = new List<Elective>();
-            
-            g
+            //Hardcoded Data!
+
+            Elective el = new Elective("ID", "Internet Development", 1, 25);
+            ElectiveData.Add(el);
+            Elective el1 = new Elective("SD", "Software Development", 10, 25);
+            ElectiveData.Add(el1);
+            Elective el2 = new Elective("IS", "Internet Systems", 10, 45);
+            ElectiveData.Add(el2);
+            Elective el3 = new Elective("IT", "Information Technology", 15, 55);
+            ElectiveData.Add(el3);
+            Student st1 = new Student("Tom","Williams","150150","08911111","IT","IS","2018");
+            StudentData.Add(st1);
+            Student st2 = new Student("Andy", "Mallow", "150151", "08711111", "IT", "ID", "2018");
+            StudentData.Add(st2);
+            Student st3 = new Student("Sarah", "Hardy", "150152", "08611111", "SD", "ID", "2018");
+            StudentData.Add(st3);
+           
+            // --End of hardcoded data
+
             int option = 0;
             do
             {
@@ -31,20 +48,20 @@ namespace ElectiveApp
                     case 1://ADD STUDENT OPTION
                         AddStudent(StudentData, ElectiveData);
                         break;
-                    case 2: //DISPLAY OPTION             
+                    case 2: //DISPLAY STUDENT OPTION             
                         DisplayStudents(StudentData);
                         break;
-                    case 3: // Display list of Knumber’s per elective.
-                        DisplayElectives(ElectiveData);
+                    case 3: // DISPLAY K-NUMBERS BY ELECTIVE CHOICE
+                        KElectivesChoice(StudentData, ElectiveData);
                         break;
-                    case 4: //UPDATE BOOK DETAILS
-                        AddElective(ElectiveData);
-                        break;
-                    case 5: //DELETE BOOK DETAILS
+                    case 4: //UPDATE ELECTIVE DETAILS FOR STUDENT
                         UpdateElective(StudentData);
                         break;
-                    case 6: //SORT BY ISBN OPTION
-                        KElectives(StudentData, ElectiveData);
+                    case 5: //ADD ELECTIVE
+                       AddElective(ElectiveData);
+                        break;
+                    case 6: //MANAGEMENT MENU
+                        DisplayElectivePop(StudentData, ElectiveData);
                         break;
                     case 7: //EXIT
                         break;
@@ -64,14 +81,129 @@ namespace ElectiveApp
             Console.WriteLine("{0,80}", "//////The Book Application Menu ////////");
             Console.WriteLine("1. Add Student");
             Console.WriteLine("2. List of students");
-            Console.WriteLine("3. Display Electives");
-            Console.WriteLine("4. Add Electives");
-            Console.WriteLine("5. Update Electives");
-            Console.WriteLine("6. Should be option 3! ");
+            Console.WriteLine("3. Display K-Numbers per Elective");
+            Console.WriteLine("4. Update Electives");
+            Console.WriteLine("5. Add an Elective.");
+            Console.WriteLine("6. Management Menu ");
             Console.WriteLine("7. Exit");
          
         }
 
+        private static void ManagerHeader()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("{0,80}", "//////The Manager Menu ////////");
+            Console.WriteLine("1. Display Electives in Order of Popularity");
+            Console.WriteLine("2. Combination of Electives selected by Students");
+            Console.WriteLine("3. Students that have selected either elective");
+            Console.WriteLine("4. Electives that failed to meet min places");
+            Console.WriteLine("5. Electives that exceed Max number of places.");
+            Console.WriteLine("6. Most popular elective combination");
+            Console.WriteLine("7. Back to Main Menu ");
+            Console.WriteLine("8. Exit");
+
+        }
+
+        private static void ManagerMenu(List<Person> StudentData, List<Elective> ElectiveData)
+        {
+
+            int option = 0;
+            do
+            {
+                ManagerHeader();
+                option = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                switch (option)
+                {          //MENU OPTION
+                    case 1://ADD STUDENT OPTION
+                        AddStudent(StudentData, ElectiveData);
+                        break;
+                    case 2: //DISPLAY STUDENT OPTION             
+                        DisplayStudents(StudentData);
+                        break;
+                    case 3: // DISPLAY K-NUMBERS BY ELECTIVE CHOICE
+                        KElectives(StudentData, ElectiveData);
+                        break;
+                    case 4: //UPDATE ELECTIVE DETAILS FOR STUDENT
+                        UpdateElective(StudentData);
+                        break;
+                    case 5: //ADD ELECTIVE
+                        AddElective(ElectiveData);
+                        break;
+                    case 6: //MANAGEMENT MENU
+                        DisplayElectivePop(StudentData, ElectiveData);
+                        break;
+                    case 7: //EXIT
+                        break;
+                    default:
+                        {
+                            Console.WriteLine("Option not implemented");
+                            break;
+                        }
+                }
+            } while (option != 7);
+
+        }
+
+        public static void DisplayElectivePop(List<Person> StudentData, List<Elective> ElectiveData)
+        {
+            Dictionary<string, HashSet<string>> StudentElectives = new Dictionary<string, HashSet<string>>();
+        
+
+            foreach (Elective E in ElectiveData)
+
+            {
+                HashSet<string> tempSet = new HashSet<string>();
+                StudentElectives.Add(E.nameCourse, tempSet);
+            }
+
+            foreach (Student s in StudentData)
+            {
+
+                StudentElectives[s.elective1].Add(s.Knumber);
+                StudentElectives[s.elective2].Add(s.Knumber);
+            }
+
+            foreach (KeyValuePair<string, HashSet<string>> kvp in StudentElectives)
+            {
+
+                Console.WriteLine("Elective = {0}", kvp.Key);
+                countSet(kvp.Value); 
+            }
+
+          
+        }
+
+        public static void countSet(HashSet<string> set)
+        {
+            Console.WriteLine(set.Count);
+        }
+
+        public static void ManagerData(List<Person> StudentData, List<Elective> ElectiveData)
+        {
+
+            Dictionary<string, HashSet<string>> StudentElectives = new Dictionary<string, HashSet<string>>();
+            HashSet<string> Knumbers = new HashSet<string>();
+
+            foreach (Elective E in ElectiveData)
+
+            {
+                HashSet<string> tempSet = new HashSet<string>();
+                StudentElectives.Add(E.nameCourse, tempSet);
+
+
+            }
+
+            foreach (Student s in StudentData)
+            {
+
+                StudentElectives[s.elective1].Add(s.Knumber);
+                StudentElectives[s.elective2].Add(s.Knumber);
+
+            }
+
+            
+        }
         public static void DisplayStudents(List<Person> StudentData)
         {
             {
@@ -114,7 +246,7 @@ namespace ElectiveApp
             string elective2 = (Console.ReadLine());
             Console.WriteLine("Enter the year of Reg: ");
             string yearReg = (Console.ReadLine());
-            if (ElectiveData.Exists(x => x.nameCourse.Contains(elective1)) && ElectiveData.Exists(x => x.nameCourse.Contains(elective2)))
+            if (ElectiveData.Exists(x => x.nameCourse.Contains(elective1)) && ElectiveData.Exists(x => x.nameCourse.Contains(elective2)) && elective1 != elective2)
             {
                 Student st1 = new Student(firstName, surname, Knumber, ContactNumber, elective1, elective2, yearReg);
                 StudentData.Add(st1);
@@ -179,26 +311,50 @@ namespace ElectiveApp
             {
                 HashSet<string> tempSet = new HashSet<string>();
                 StudentElectives.Add(E.nameCourse, tempSet);
-
-
             }
 
             foreach (Student s in StudentData)
             {
-           
                 StudentElectives[s.elective1].Add(s.Knumber);
                 StudentElectives[s.elective2].Add(s.Knumber);
-
             }
 
             foreach (KeyValuePair<string, HashSet<string>> kvp in StudentElectives)
             {
-              
                 Console.WriteLine("Elective = {0}", kvp.Key);
                 displaySet(StudentElectives[kvp.Key]);
+            }
+        }
+        public static void KElectivesChoice(List<Person> StudentData, List<Elective> ElectiveData)
+        {
+            Dictionary<string, HashSet<string>> StudentElectives = new Dictionary<string, HashSet<string>>();
 
+            Console.WriteLine(" Input an elective 1: ");
+            string choice1 = Console.ReadLine();
+            Console.WriteLine(" Input an elective 2: ");
+            string choice2 = Console.ReadLine();
+
+            foreach (Elective E in ElectiveData)
+
+            {
+                HashSet<string> tempSet = new HashSet<string>();
+                StudentElectives.Add(E.nameCourse, tempSet);
             }
 
+            foreach (Student s in StudentData)
+            {
+                if (StudentElectives[choice1].Contains(s.elective1) && StudentElectives[choice2].Contains(s.elective2))
+                {
+                    StudentElectives[s.elective1].Add(s.Knumber);
+                    StudentElectives[s.elective2].Add(s.Knumber);
+                }
+            }
+
+            foreach (KeyValuePair<string, HashSet<string>> kvp in StudentElectives)
+            {
+                Console.WriteLine("Elective = {0}", kvp.Key);
+                displaySet(StudentElectives[kvp.Key]);
+            }
 
         }
 
@@ -210,6 +366,9 @@ namespace ElectiveApp
 
             Console.WriteLine(" }");
         }
+
+
+        
 
         public static void UpdateElective(List<Person> StudentData)
         {
